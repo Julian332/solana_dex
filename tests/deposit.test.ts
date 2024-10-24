@@ -1,21 +1,15 @@
 import * as anchor from "@coral-xyz/anchor";
-import { Program, BN } from "@coral-xyz/anchor";
-import { RaydiumCpSwap } from "../target/types/raydium_cp_swap";
-import {
-  calculateFee,
-  calculatePreFeeAmount,
-  deposit,
-  getUserAndPoolVaultAmount,
-  setupDepositTest,
-} from "./utils";
-import { assert } from "chai";
-import { MAX_FEE_BASIS_POINTS, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import {BN, Program} from "@coral-xyz/anchor";
+import {Soldium} from "../target/types/soldium";
+import {calculateFee, calculatePreFeeAmount, deposit, getUserAndPoolVaultAmount, setupDepositTest,} from "./utils";
+import {assert} from "chai";
+import {MAX_FEE_BASIS_POINTS, TOKEN_PROGRAM_ID} from "@solana/spl-token";
 
 describe("deposit test", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
   const owner = anchor.Wallet.local().payer;
 
-  const program = anchor.workspace.RaydiumCpSwap as Program<RaydiumCpSwap>;
+  const program = anchor.workspace.Soldium as Program<Soldium>;
 
   const confirmOptions = {
     skipPreflight: true,

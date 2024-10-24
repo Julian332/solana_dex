@@ -125,12 +125,12 @@ pub struct Initialize<'info> {
     )]
     pub token_1_vault: UncheckedAccount<'info>,
 
-    /// create pool fee account
+    /// CHECK:  create pool fee account
     #[account(
         mut,
         address= crate::create_pool_fee_reveiver::id(),
     )]
-    pub create_pool_fee: Box<InterfaceAccount<'info, TokenAccount>>,
+    pub create_pool_fee: UncheckedAccount<'info>,
 
     /// an account to store oracle observations
     #[account(
@@ -301,16 +301,16 @@ pub fn initialize(
                 ctx.accounts.system_program.to_account_info(),
             ],
         )?;
-        invoke(
-            &spl_token::instruction::sync_native(
-                ctx.accounts.token_program.key,
-                &ctx.accounts.create_pool_fee.key(),
-            )?,
-            &[
-                ctx.accounts.token_program.to_account_info(),
-                ctx.accounts.create_pool_fee.to_account_info(),
-            ],
-        )?;
+        // invoke(
+        //     &spl_token::instruction::sync_native(
+        //         ctx.accounts.token_program.key,
+        //         &ctx.accounts.create_pool_fee.key(),
+        //     )?,
+        //     &[
+        //         ctx.accounts.token_program.to_account_info(),
+        //         ctx.accounts.create_pool_fee.to_account_info(),
+        //     ],
+        // )?;
     }
 
     pool_state.initialize(

@@ -29,7 +29,7 @@ pub mod admin {
     #[cfg(feature = "devnet")]
     declare_id!("adMCyoCgfkg7bQiJ9aBJ59H3BXLY3r5LNLfPpQfMzBe");
     #[cfg(not(feature = "devnet"))]
-    declare_id!("ENz58YQ2ULUw3CScoCmmwJUDHTRhfXzTnNSfWdJLyUso");
+    declare_id!("DqVhQLWUjQ1HistJLuC5D6fgPs5nFHeKjpohPDzRUJb4");
 }
 
 pub mod create_pool_fee_reveiver {
@@ -37,13 +37,13 @@ pub mod create_pool_fee_reveiver {
     #[cfg(feature = "devnet")]
     declare_id!("G11FKBRaAkHAKuLCgLM6K6NUc9rTjPAznRCjZifrTQe2");
     #[cfg(not(feature = "devnet"))]
-    declare_id!("ENz58YQ2ULUw3CScoCmmwJUDHTRhfXzTnNSfWdJLyUso");
+    declare_id!("DqVhQLWUjQ1HistJLuC5D6fgPs5nFHeKjpohPDzRUJb4");
 }
 
 pub const AUTH_SEED: &str = "vault_and_lp_mint_auth_seed";
 
 #[program]
-pub mod raydium_cp_swap {
+pub mod soldium {
     use super::*;
 
     // The configuation of AMM protocol, include trade fee and protocol fee

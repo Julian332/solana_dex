@@ -1,35 +1,31 @@
-import {Program, BN} from "@coral-xyz/anchor";
-import {RaydiumCpSwap} from "../../target/types/raydium_cp_swap";
+import {BN, Program} from "@coral-xyz/anchor";
+import {Soldium} from "../../target/types/soldium";
 import {
-    Connection,
     ConfirmOptions,
-    PublicKey,
+    Connection,
     Keypair,
+    PublicKey,
     Signer,
     SystemProgram,
     SYSVAR_RENT_PUBKEY,
 } from "@solana/web3.js";
-import {
-    TOKEN_PROGRAM_ID,
-    TOKEN_2022_PROGRAM_ID,
-    getAssociatedTokenAddressSync,
-} from "@solana/spl-token";
+import {getAssociatedTokenAddressSync, TOKEN_2022_PROGRAM_ID, TOKEN_PROGRAM_ID,} from "@solana/spl-token";
 import {
     accountExist,
-    sendTransaction,
+    createTokenMintAndAssociatedTokenAccount,
     getAmmConfigAddress,
     getAuthAddress,
+    getOrcleAccountAddress,
     getPoolAddress,
     getPoolLpMintAddress,
     getPoolVaultAddress,
-    createTokenMintAndAssociatedTokenAccount,
-    getOrcleAccountAddress,
+    sendTransaction,
 } from "./index";
 
 import {ASSOCIATED_PROGRAM_ID} from "@coral-xyz/anchor/dist/cjs/utils/token";
 
 export async function setupInitializeTest(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     connection: Connection,
     owner: Signer,
     config: {
@@ -45,7 +41,6 @@ export async function setupInitializeTest(
     },
     confirmOptions?: ConfirmOptions
 ) {
-    console.log("setupInitializeTest +++++++++++++here")
 
     const [{token0, token0Program}, {token1, token1Program}] =
         await createTokenMintAndAssociatedTokenAccount(
@@ -54,7 +49,6 @@ export async function setupInitializeTest(
             new Keypair(),
             transferFeeConfig
         );
-    console.log("setupInitializeTest +++++++++++++here")
 
     const configAddress = await createAmmConfig(
         program,
@@ -67,7 +61,6 @@ export async function setupInitializeTest(
         config.create_fee,
         confirmOptions
     );
-    console.log("setupInitializeTest +++++++++++++here")
 
     return {
         configAddress,
@@ -79,7 +72,7 @@ export async function setupInitializeTest(
 }
 
 export async function setupDepositTest(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     connection: Connection,
     owner: Signer,
     config: {
@@ -158,7 +151,7 @@ export async function setupDepositTest(
 }
 
 export async function setupSwapTest(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     connection: Connection,
     owner: Signer,
     config: {
@@ -222,7 +215,7 @@ export async function setupSwapTest(
 }
 
 export async function createAmmConfig(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     connection: Connection,
     owner: Signer,
     config_index: number,
@@ -232,7 +225,6 @@ export async function createAmmConfig(
     create_fee: BN,
     confirmOptions?: ConfirmOptions
 ): Promise<PublicKey> {
-    console.log("createAmmConfig +++++++++++++here")
 
     const [address, _] = await getAmmConfigAddress(
         config_index,
@@ -256,7 +248,6 @@ export async function createAmmConfig(
             systemProgram: SystemProgram.programId,
         })
         .instruction();
-    console.log("createAmmConfig +++++++++++++here")
     let tx;
     try {
          tx = await sendTransaction(connection, [ix], [owner], confirmOptions);
@@ -268,7 +259,7 @@ export async function createAmmConfig(
 }
 
 export async function initialize(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     creator: Signer,
     configAddress: PublicKey,
     token0: PublicKey,
@@ -280,29 +271,34 @@ export async function initialize(
         initAmount0: new BN(10000000000),
         initAmount1: new BN(20000000000),
     },
-    createPoolFee = new PublicKey("DNXgeM9EiiaAbaWvwjHj9fQQLAX5ZsfHyvmYUNRAdNC8")
+    createPoolFee = new PublicKey("DqVhQLWUjQ1HistJLuC5D6fgPs5nFHeKjpohPDzRUJb4")
 ) {
     const [auth] = await getAuthAddress(program.programId);
+    console.log(auth.toString());
     const [poolAddress] = await getPoolAddress(
         configAddress,
         token0,
         token1,
         program.programId
     );
+    console.log(poolAddress.toString());
     const [lpMintAddress] = await getPoolLpMintAddress(
         poolAddress,
         program.programId
     );
+    console.log(lpMintAddress.toString());
     const [vault0] = await getPoolVaultAddress(
         poolAddress,
         token0,
         program.programId
     );
+    console.log(vault0.toString());
     const [vault1] = await getPoolVaultAddress(
         poolAddress,
         token1,
         program.programId
     );
+    console.log(vault1.toString());
     const [creatorLpTokenAddress] = await PublicKey.findProgramAddress(
         [
             creator.publicKey.toBuffer(),
@@ -311,54 +307,68 @@ export async function initialize(
         ],
         ASSOCIATED_PROGRAM_ID
     );
+    console.log(creatorLpTokenAddress.toString());
 
     const [observationAddress] = await getOrcleAccountAddress(
         poolAddress,
         program.programId
     );
 
+    console.log(observationAddress.toString());
     const creatorToken0 = getAssociatedTokenAddressSync(
         token0,
         creator.publicKey,
         false,
         token0Program
     );
+    console.log(creatorToken0.toString());
     const creatorToken1 = getAssociatedTokenAddressSync(
         token1,
         creator.publicKey,
         false,
         token1Program
     );
-    await program.methods
-        .initialize(initAmount.initAmount0, initAmount.initAmount1, new BN(0))
-        .accounts({
-            creator: creator.publicKey,
-            ammConfig: configAddress,
-            authority: auth,
-            poolState: poolAddress,
-            token0Mint: token0,
-            token1Mint: token1,
-            lpMint: lpMintAddress,
-            creatorToken0,
-            creatorToken1,
-            creatorLpToken: creatorLpTokenAddress,
-            token0Vault: vault0,
-            token1Vault: vault1,
-            createPoolFee,
-            observationState: observationAddress,
-            tokenProgram: TOKEN_PROGRAM_ID,
-            token0Program: token0Program,
-            token1Program: token1Program,
-            systemProgram: SystemProgram.programId,
-            rent: SYSVAR_RENT_PUBKEY,
-        })
-        .rpc(confirmOptions);
+    console.log(creatorToken1.toString());
+    console.log("initialize +++++++++++++here")
+
+    try {
+        await program.methods
+            .initialize(initAmount.initAmount0, initAmount.initAmount1, new BN(0))
+            .accounts({
+                creator: creator.publicKey,
+                ammConfig: configAddress,
+                authority: auth,
+                poolState: poolAddress,
+                token0Mint: token0,
+                token1Mint: token1,
+                lpMint: lpMintAddress,
+                creatorToken0,
+                creatorToken1,
+                creatorLpToken: creatorLpTokenAddress,
+                token0Vault: vault0,
+                token1Vault: vault1,
+                createPoolFee,
+                observationState: observationAddress,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                token0Program: token0Program,
+                token1Program: token1Program,
+                systemProgram: SystemProgram.programId,
+                rent: SYSVAR_RENT_PUBKEY,
+            })
+            .rpc(confirmOptions);
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+    console.log("initialize +++++++++++++here")
+
     const poolState = await program.account.poolState.fetch(poolAddress);
+    console.log("initialize +++++++++++++here")
     return {poolAddress, poolState};
 }
 
 export async function deposit(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     owner: Signer,
     configAddress: PublicKey,
     token0: PublicKey,
@@ -436,7 +446,7 @@ export async function deposit(
 }
 
 export async function withdraw(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     owner: Signer,
     configAddress: PublicKey,
     token0: PublicKey,
@@ -517,7 +527,7 @@ export async function withdraw(
 }
 
 export async function swap_base_input(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     owner: Signer,
     configAddress: PublicKey,
     inputToken: PublicKey,
@@ -587,7 +597,7 @@ export async function swap_base_input(
 }
 
 export async function swap_base_output(
-    program: Program<RaydiumCpSwap>,
+    program: Program<Soldium>,
     owner: Signer,
     configAddress: PublicKey,
     inputToken: PublicKey,

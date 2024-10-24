@@ -1,19 +1,13 @@
 import * as anchor from "@coral-xyz/anchor";
-import { Program, BN } from "@coral-xyz/anchor";
-import { RaydiumCpSwap } from "../target/types/raydium_cp_swap";
-import {
-  deposit,
-  getUserAndPoolVaultAmount,
-  isEqual,
-  setupDepositTest,
-  withdraw,
-} from "./utils";
-import { assert } from "chai";
+import {BN, Program} from "@coral-xyz/anchor";
+import {Soldium} from "../target/types/soldium";
+import {deposit, getUserAndPoolVaultAmount, isEqual, setupDepositTest, withdraw,} from "./utils";
+import {assert} from "chai";
 
 describe("withdraw test", () => {
   anchor.setProvider(anchor.AnchorProvider.env());
   const owner = anchor.Wallet.local().payer;
-  const program = anchor.workspace.RaydiumCpSwap as Program<RaydiumCpSwap>;
+  const program = anchor.workspace.Soldium as Program<Soldium>;
 
   const confirmOptions = {
     skipPreflight: true,

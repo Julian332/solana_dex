@@ -1,9 +1,9 @@
 import * as anchor from "@coral-xyz/anchor";
-import {Program, BN} from "@coral-xyz/anchor";
-import {RaydiumCpSwap} from "../target/types/raydium_cp_swap";
+import {BN, Program} from "@coral-xyz/anchor";
+import {Soldium} from "../target/types/soldium";
 
 import {getAccount, TOKEN_PROGRAM_ID} from "@solana/spl-token";
-import {setupInitializeTest, initialize, calculateFee} from "./utils";
+import {calculateFee, initialize, setupInitializeTest} from "./utils";
 import {assert} from "chai";
 
 describe("initialize test", () => {
@@ -11,7 +11,7 @@ describe("initialize test", () => {
     const owner = anchor.Wallet.local().payer;
     console.log("owner: ", owner.publicKey.toString());
 
-    const program = anchor.workspace.RaydiumCpSwap as Program<RaydiumCpSwap>;
+    const program = anchor.workspace.Soldium as Program<Soldium>;
 
     const confirmOptions = {
         skipPreflight: true,
@@ -65,7 +65,6 @@ describe("initialize test", () => {
     });
 
     it("create pool with fee", async () => {
-        console.log("create pool with fee +++++++++++++here")
 
         const {configAddress, token0, token0Program, token1, token1Program} =
             await setupInitializeTest(
@@ -82,7 +81,6 @@ describe("initialize test", () => {
                 {transferFeeBasisPoints: 0, MaxFee: 0},
                 confirmOptions
             );
-console.log("create pool with fee +++++++++++++here")
         const initAmount0 = new BN(10000000000);
         const initAmount1 = new BN(10000000000);
         const {poolAddress, poolState} = await initialize(
@@ -96,7 +94,6 @@ console.log("create pool with fee +++++++++++++here")
             confirmOptions,
             {initAmount0, initAmount1}
         );
-        console.log("create pool with fee +++++++++++++here")
 
         let vault0 = await getAccount(
             anchor.getProvider().connection,
@@ -105,7 +102,6 @@ console.log("create pool with fee +++++++++++++here")
             poolState.token0Program
         );
         assert.equal(vault0.amount.toString(), initAmount0.toString());
-        console.log("create pool with fee +++++++++++++here")
 
         let vault1 = await getAccount(
             anchor.getProvider().connection,
@@ -130,7 +126,7 @@ console.log("create pool with fee +++++++++++++here")
                     fundFeeRate: new BN(25000),
                     create_fee: new BN(100000000),
                 },
-                transferFeeConfig,
+                {transferFeeBasisPoints: 100, MaxFee: 50000000},
                 confirmOptions
             );
 
