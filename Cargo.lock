@@ -1097,7 +1097,6 @@ dependencies = [
  "configparser",
  "hex",
  "rand 0.7.3",
- "raydium-cp-swap",
  "regex",
  "serde",
  "serde_json",
@@ -1105,6 +1104,7 @@ dependencies = [
  "solana-client",
  "solana-sdk",
  "solana-transaction-status",
+ "soldium",
  "spl-associated-token-account",
  "spl-memo",
  "spl-token",
@@ -3201,24 +3201,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "raydium-cp-swap"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "arrayref",
- "bytemuck",
- "proptest",
- "quickcheck",
- "rand 0.8.5",
- "solana-security-txt",
- "spl-math",
- "spl-memo",
- "spl-token",
- "uint",
-]
-
-[[package]]
 name = "rayon"
 version = "1.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4883,6 +4865,24 @@ dependencies = [
  "scroll",
  "thiserror",
  "winapi",
+]
+
+[[package]]
+name = "soldium"
+version = "0.1.0"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "arrayref",
+ "bytemuck",
+ "proptest",
+ "quickcheck",
+ "rand 0.8.5",
+ "solana-security-txt",
+ "spl-math",
+ "spl-memo",
+ "spl-token",
+ "uint",
 ]
 
 [[package]]

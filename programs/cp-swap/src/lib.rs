@@ -22,14 +22,14 @@ solana_security_txt::security_txt! {
 #[cfg(feature = "devnet")]
 declare_id!("CPMDWBwJDtYax9qW7AyRuVC19Cc4L4Vcy4n2BHAbHkCW");
 #[cfg(not(feature = "devnet"))]
-declare_id!("CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C");
+declare_id!("8PLzJaUoQH3tWq4ZEKobGDZgWPiuQVnQSZbjTeMmN3dG");
 
 pub mod admin {
     use anchor_lang::prelude::declare_id;
     #[cfg(feature = "devnet")]
     declare_id!("adMCyoCgfkg7bQiJ9aBJ59H3BXLY3r5LNLfPpQfMzBe");
     #[cfg(not(feature = "devnet"))]
-    declare_id!("GThUX1Atko4tqhN2NaiTazWSeFWMuiUvfFnyJyUghFMJ");
+    declare_id!("ENz58YQ2ULUw3CScoCmmwJUDHTRhfXzTnNSfWdJLyUso");
 }
 
 pub mod create_pool_fee_reveiver {
@@ -37,7 +37,7 @@ pub mod create_pool_fee_reveiver {
     #[cfg(feature = "devnet")]
     declare_id!("G11FKBRaAkHAKuLCgLM6K6NUc9rTjPAznRCjZifrTQe2");
     #[cfg(not(feature = "devnet"))]
-    declare_id!("DNXgeM9EiiaAbaWvwjHj9fQQLAX5ZsfHyvmYUNRAdNC8");
+    declare_id!("ENz58YQ2ULUw3CScoCmmwJUDHTRhfXzTnNSfWdJLyUso");
 }
 
 pub const AUTH_SEED: &str = "vault_and_lp_mint_auth_seed";

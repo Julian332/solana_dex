@@ -2,9 +2,9 @@ use anchor_client::{Client, Cluster};
 use anyhow::Result;
 use solana_sdk::{instruction::Instruction, pubkey::Pubkey, system_program, sysvar};
 
-use raydium_cp_swap::accounts as raydium_cp_accounts;
-use raydium_cp_swap::instruction as raydium_cp_instructions;
-use raydium_cp_swap::{
+use soldium::accounts as raydium_cp_accounts;
+use soldium::instruction as raydium_cp_instructions;
+use soldium::{
     states::{AMM_CONFIG_SEED, OBSERVATION_SEED, POOL_LP_MINT_SEED, POOL_SEED, POOL_VAULT_SEED},
     AUTH_SEED,
 };

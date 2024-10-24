@@ -11,7 +11,7 @@ seeds = false
 skip-lint = false
 
 [programs.Localnet]
-raydium_cp_swap = "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C"
+soldium = "8PLzJaUoQH3tWq4ZEKobGDZgWPiuQVnQSZbjTeMmN3dG"
 
 
 [registry]
@@ -28,7 +28,7 @@ test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
 startup_wait = 10000
 
 [test.validator]
-url = "https://api.mainnet-beta.solana.com"
+url = "https://solana-mainnet.core.chainstack.com/a5d983e71c3e60493d22234ea66ce125"
 
 [[test.validator.clone]]
 address = "DNXgeM9EiiaAbaWvwjHj9fQQLAX5ZsfHyvmYUNRAdNC8"
