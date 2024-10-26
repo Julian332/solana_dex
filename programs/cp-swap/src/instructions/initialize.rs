@@ -31,7 +31,7 @@ pub struct Initialize<'info> {
             crate::AUTH_SEED.as_bytes(),
         ],
         bump,
-    )]
+  )]
     pub authority: UncheckedAccount<'info>,
 
     /// CHECK: Initialize an account to store the pool state
@@ -51,13 +51,13 @@ pub struct Initialize<'info> {
     #[account(
         constraint = token_0_mint.key() < token_1_mint.key(),
         mint::token_program = token_0_program,
-    )]
+  )]
     pub token_0_mint: Box<InterfaceAccount<'info, Mint>>,
 
     /// Token_1 mint, the key must grater then token_0 mint.
     #[account(
         mint::token_program = token_1_program,
-    )]
+  )]
     pub token_1_mint: Box<InterfaceAccount<'info, Mint>>,
 
     /// pool lp mint
@@ -72,7 +72,7 @@ pub struct Initialize<'info> {
         mint::authority = authority,
         payer = creator,
         mint::token_program = token_program,
-    )]
+  )]
     pub lp_mint: Box<InterfaceAccount<'info, Mint>>,
 
     /// payer token0 account
@@ -80,7 +80,7 @@ pub struct Initialize<'info> {
         mut,
         token::mint = token_0_mint,
         token::authority = creator,
-    )]
+  )]
     pub creator_token_0: Box<InterfaceAccount<'info, TokenAccount>>,
 
     /// creator token1 account
@@ -88,7 +88,7 @@ pub struct Initialize<'info> {
         mut,
         token::mint = token_1_mint,
         token::authority = creator,
-    )]
+  )]
     pub creator_token_1: Box<InterfaceAccount<'info, TokenAccount>>,
 
     /// creator lp token account
@@ -98,7 +98,7 @@ pub struct Initialize<'info> {
         associated_token::authority = creator,
         payer = creator,
         token::token_program = token_program,
-    )]
+  )]
     pub creator_lp_token: Box<InterfaceAccount<'info, TokenAccount>>,
 
     /// CHECK: Token_0 vault for the pool
@@ -110,7 +110,7 @@ pub struct Initialize<'info> {
             token_0_mint.key().as_ref()
         ],
         bump,
-    )]
+  )]
     pub token_0_vault: UncheckedAccount<'info>,
 
     /// CHECK: Token_1 vault for the pool
@@ -122,14 +122,14 @@ pub struct Initialize<'info> {
             token_1_mint.key().as_ref()
         ],
         bump,
-    )]
+  )]
     pub token_1_vault: UncheckedAccount<'info>,
 
     /// CHECK:  create pool fee account
     #[account(
         mut,
         address= crate::create_pool_fee_reveiver::id(),
-    )]
+  )]
     pub create_pool_fee: UncheckedAccount<'info>,
 
     /// an account to store oracle observations
@@ -142,7 +142,7 @@ pub struct Initialize<'info> {
         bump,
         payer = creator,
         space = ObservationState::LEN
-    )]
+  )]
     pub observation_state: AccountLoader<'info, ObservationState>,
 
     /// Program to create mint account and mint tokens
@@ -326,6 +326,13 @@ pub fn initialize(
         &ctx.accounts.lp_mint,
         ctx.accounts.observation_state.key(),
     );
+
+    emit!(CreatePoolEvent {
+        pool_id: ctx.accounts.pool_state.key(),
+        init_amount_0,
+        init_amount_1,
+        open_time,
+    });
 
     Ok(())
 }

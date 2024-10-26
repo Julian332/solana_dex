@@ -3,6 +3,7 @@
 use anchor_lang::prelude::*;
 #[cfg(test)]
 use std::time::{SystemTime, UNIX_EPOCH};
+
 /// Seed to derive account address and signature
 pub const OBSERVATION_SEED: &str = "observation";
 // Number of ObservationState element
@@ -27,7 +28,7 @@ impl Observation {
 
 #[account(zero_copy(unsafe))]
 #[repr(packed)]
-#[cfg_attr(feature = "client", derive(Debug))]
+// #[cfg_attr(feature = "client", derive(Debug))]
 pub struct ObservationState {
     /// Whether the ObservationState is initialized
     pub initialized: bool,
