@@ -19,25 +19,17 @@ solana_security_txt::security_txt! {
     auditors: "https://github.com/raydium-io/raydium-docs/blob/master/audit/MadShield%20Q1%202024/raydium-cp-swap-v-1.0.0.pdf"
 }
 
-#[cfg(feature = "devnet")]
 declare_id!("6Hf5A4pofi7DjWAvWNMA5R7RyueFqPGYptt2jS4hCt5L");
-#[cfg(not(feature = "devnet"))]
-declare_id!("8PLzJaUoQH3tWq4ZEKobGDZgWPiuQVnQSZbjTeMmN3dG");
 
 pub mod admin {
     use anchor_lang::prelude::declare_id;
-    #[cfg(feature = "devnet")]
+
     declare_id!("ENz58YQ2ULUw3CScoCmmwJUDHTRhfXzTnNSfWdJLyUso");
-    #[cfg(not(feature = "devnet"))]
-    declare_id!("DqVhQLWUjQ1HistJLuC5D6fgPs5nFHeKjpohPDzRUJb4");
 }
 
 pub mod create_pool_fee_reveiver {
     use anchor_lang::prelude::declare_id;
-    #[cfg(feature = "devnet")]
     declare_id!("ENz58YQ2ULUw3CScoCmmwJUDHTRhfXzTnNSfWdJLyUso");
-    #[cfg(not(feature = "devnet"))]
-    declare_id!("DqVhQLWUjQ1HistJLuC5D6fgPs5nFHeKjpohPDzRUJb4");
 }
 
 pub const AUTH_SEED: &str = "vault_and_lp_mint_auth_seed";
