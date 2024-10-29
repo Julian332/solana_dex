@@ -45,6 +45,7 @@ pub struct SwapEvent {
 pub struct CreatePoolEvent {
     #[index]
     pub pool_id: Pubkey,
+    pub lp_token: Pubkey,
     /// pool vault sub trade fees
     pub init_amount_0: u64,
     pub init_amount_1: u64,

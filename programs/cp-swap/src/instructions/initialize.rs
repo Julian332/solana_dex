@@ -329,6 +329,7 @@ pub fn initialize(
 
     emit!(CreatePoolEvent {
         pool_id: ctx.accounts.pool_state.key(),
+        lp_token: pool_state.lp_mint,
         init_amount_0,
         init_amount_1,
         open_time,
