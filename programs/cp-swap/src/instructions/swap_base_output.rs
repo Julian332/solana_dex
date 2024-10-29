@@ -154,6 +154,7 @@ pub fn swap_base_output(
 
     emit!(SwapEvent {
         pool_id,
+        input_token: ctx.accounts.input_token_mint.key(),
         input_vault_before: total_input_token_amount,
         output_vault_before: total_output_token_amount,
         input_amount: u64::try_from(result.source_amount_swapped).unwrap(),

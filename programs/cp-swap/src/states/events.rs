@@ -27,6 +27,8 @@ pub struct LpChangeEvent {
 pub struct SwapEvent {
     #[index]
     pub pool_id: Pubkey,
+    pub input_token: Pubkey,
+
     /// pool vault sub trade fees
     pub input_vault_before: u64,
     /// pool vault sub trade fees
