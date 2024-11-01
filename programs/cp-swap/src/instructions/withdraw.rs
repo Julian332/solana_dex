@@ -7,6 +7,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::Token;
 use anchor_spl::token_interface::{Mint, Token2022, TokenAccount};
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct Withdraw<'info> {
     /// Pays to mint the position
@@ -149,7 +150,7 @@ pub fn withdraw(
         receive_token_1_amount,
         token_1_transfer_fee
     );
-    emit!(LpChangeEvent {
+    emit_cpi!(LpChangeEvent {
         pool_id,
         lp_amount_before: pool_state.lp_supply,
         token_0_vault_before: total_token_0_amount,

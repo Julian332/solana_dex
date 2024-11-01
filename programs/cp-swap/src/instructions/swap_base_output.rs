@@ -152,7 +152,7 @@ pub fn swap_base_output(
         }
     };
 
-    emit!(SwapEvent {
+    emit_cpi!(SwapEvent {
         pool_id,
         input_token: ctx.accounts.input_token_mint.key(),
         output_token: ctx.accounts.output_token_mint.key(),

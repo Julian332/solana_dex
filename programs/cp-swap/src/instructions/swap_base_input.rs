@@ -7,6 +7,7 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program;
 use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
 
+#[event_cpi]
 #[derive(Accounts)]
 pub struct Swap<'info> {
     /// The user performing the swap
@@ -213,7 +214,7 @@ pub fn swap_base_input(ctx: Context<Swap>, amount_in: u64, minimum_amount_out: u
         }
     };
 
-    emit!(SwapEvent {
+    emit_cpi!(SwapEvent {
         pool_id,
         input_token: ctx.accounts.input_token_mint.key(),
         output_token: ctx.accounts.output_token_mint.key(),
