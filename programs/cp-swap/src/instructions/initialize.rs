@@ -242,6 +242,14 @@ pub fn initialize(
         ctx.accounts.token_1_mint.decimals,
     )?;
 
+    emit!(CreatePoolEvent {
+        pool_id: ctx.accounts.pool_state.key(),
+        lp_token: pool_state.lp_mint,
+        init_amount_0,
+        init_amount_1,
+        open_time,
+    });
+
     let token_0_vault =
         spl_token_2022::extension::StateWithExtensions::<spl_token_2022::state::Account>::unpack(
             ctx.accounts
@@ -269,13 +277,13 @@ pub fn initialize(
         .integer_sqrt()
         .as_u64();
     let lock_lp_amount = 100;
-    msg!(
-        "liquidity:{}, lock_lp_amount:{}, vault_0_amount:{},vault_1_amount:{}",
-        liquidity,
-        lock_lp_amount,
-        token_0_vault.amount,
-        token_1_vault.amount
-    );
+    // msg!(
+    //     "liquidity:{}, lock_lp_amount:{}, vault_0_amount:{},vault_1_amount:{}",
+    //     liquidity,
+    //     lock_lp_amount,
+    //     token_0_vault.amount,
+    //     token_1_vault.amount
+    // );
     token::token_mint_to(
         ctx.accounts.authority.to_account_info(),
         ctx.accounts.token_program.to_account_info(),
@@ -326,14 +334,6 @@ pub fn initialize(
         &ctx.accounts.lp_mint,
         ctx.accounts.observation_state.key(),
     );
-
-    emit!(CreatePoolEvent {
-        pool_id: ctx.accounts.pool_state.key(),
-        lp_token: pool_state.lp_mint,
-        init_amount_0,
-        init_amount_1,
-        open_time,
-    });
 
     Ok(())
 }

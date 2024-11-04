@@ -18,7 +18,7 @@ soldium = "6Hf5A4pofi7DjWAvWNMA5R7RyueFqPGYptt2jS4hCt5L"
 url = "https://github.com/raydium-io/raydium-cp-swap"
 
 [provider]
-cluster = "Localnet"
+cluster = "https://devnet.helius-rpc.com/?api-key=8b2b8729-3998-43fe-8893-6b6d9f292677"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
