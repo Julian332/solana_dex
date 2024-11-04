@@ -4,7 +4,6 @@ use crate::states::*;
 use crate::utils::*;
 use anchor_lang::{
     accounts::interface_account::InterfaceAccount,
-    emit_cpi,
     prelude::*,
     solana_program::{clock, program::invoke, system_instruction},
     system_program,
@@ -17,7 +16,6 @@ use anchor_spl::{
 };
 use std::ops::Deref;
 
-#[event_cpi]
 #[derive(Accounts)]
 pub struct Initialize<'info> {
     /// Address paying to create the pool. Can be anyone
@@ -329,7 +327,7 @@ pub fn initialize(
         ctx.accounts.observation_state.key(),
     );
 
-    emit_cpi!(CreatePoolEvent {
+    emit!(CreatePoolEvent {
         pool_id: ctx.accounts.pool_state.key(),
         lp_token: pool_state.lp_mint,
         init_amount_0,

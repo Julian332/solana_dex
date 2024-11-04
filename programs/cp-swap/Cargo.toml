@@ -17,7 +17,7 @@ default = []
 enable-log = []
 
 [dependencies]
-anchor-lang = { version = "0.29.0", features = ["init-if-needed","event-cpi"] }
+anchor-lang = { version = "0.29.0", features = ["init-if-needed"] }
 anchor-spl = { version = "0.29.0", features = ["metadata"] }
 spl-token = { version = "4.0.0", features = ["no-entrypoint"] }
 spl-math = { version = "0.2", features = ["no-entrypoint"] }
