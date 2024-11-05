@@ -165,8 +165,8 @@ pub fn initialize(
     init_amount_1: u64,
     mut open_time: u64,
 ) -> Result<()> {
-    if !(is_supported_mint(&ctx.accounts.token_0_mint).unwrap()
-        && is_supported_mint(&ctx.accounts.token_1_mint).unwrap())
+    if !(is_supported_mint(&ctx.accounts.token_0_mint)?
+        && is_supported_mint(&ctx.accounts.token_1_mint)?)
     {
         return err!(ErrorCode::NotSupportMint);
     }
@@ -244,7 +244,7 @@ pub fn initialize(
 
     emit!(CreatePoolEvent {
         pool_id: ctx.accounts.pool_state.key(),
-        lp_token: pool_state.lp_mint,
+        lp_token: ctx.accounts.lp_mint.key(),
         init_amount_0,
         init_amount_1,
         open_time,
